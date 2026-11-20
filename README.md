@@ -40,6 +40,8 @@ D е дуло → мишена, Dтм е телефон → мишена, Dтд 
 
 Проектът е за `compileSdk 36`, `minSdk 24` и Gradle 9.4. Отвори папката в Android Studio или изпълни `gradlew.bat assembleDebug`.
 
+От командния ред Gradle ползва `JAVA_HOME` (JDK 17 или по-нов). Ако Java е само JBR на Android Studio, задай `JAVA_HOME` към него или добави `org.gradle.java.home` в потребителския файл `%USERPROFILE%\.gradle\gradle.properties` (Windows) или `~/.gradle/gradle.properties` (Linux и macOS).
+
 ---
 
 # SlugSpeed (English)
@@ -83,3 +85,5 @@ D is muzzle → target, Dpt is phone → target, Dpm is phone → muzzle, and c 
 ## Build
 
 The project uses `compileSdk 36`, `minSdk 24` and Gradle 9.4. Open the folder in Android Studio or run `gradlew.bat assembleDebug`.
+
+From the command line Gradle uses `JAVA_HOME` (JDK 17 or newer). If the only Java is Android Studio's JBR, point `JAVA_HOME` at it, or add `org.gradle.java.home` to the user file `%USERPROFILE%\.gradle\gradle.properties` (Windows) or `~/.gradle/gradle.properties` (Linux and macOS).
