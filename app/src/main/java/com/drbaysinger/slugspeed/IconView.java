@@ -1,4 +1,4 @@
-package bg.chorno.slugspeed;
+package com.drbaysinger.slugspeed;
 
 import android.content.Context;
 import android.graphics.Canvas;

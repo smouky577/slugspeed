@@ -1,4 +1,4 @@
-package bg.chorno.slugspeed;
+package com.drbaysinger.slugspeed;
 
 import android.Manifest;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package bg.chorno.slugspeed;
+package com.drbaysinger.slugspeed;
 
 /**
  * Намира началото на звука от изстрела и от попадението и смята скоростта.

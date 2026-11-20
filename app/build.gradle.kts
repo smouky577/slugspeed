@@ -12,11 +12,11 @@ val keystoreProperties = Properties().apply {
 }
 
 android {
-    namespace = "bg.chorno.slugspeed"
+    namespace = "com.drbaysinger.slugspeed"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "bg.chorno.slugspeed"
+        applicationId = "com.drbaysinger.slugspeed"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

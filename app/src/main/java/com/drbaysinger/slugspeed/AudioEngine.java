@@ -1,4 +1,4 @@
-package bg.chorno.slugspeed;
+package com.drbaysinger.slugspeed;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;

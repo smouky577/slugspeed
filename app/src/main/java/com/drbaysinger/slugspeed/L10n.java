@@ -1,4 +1,4 @@
-package bg.chorno.slugspeed;
+package com.drbaysinger.slugspeed;
 
 /** Текстове на български и английски. */
 public final class L10n {
