@@ -94,7 +94,7 @@ public final class L10n {
                 : "Impact sensitivity: " + pct + "% (lower = more sensitive)";
     }
 
-    public String targetHint() { return bg ? "празно = като дулото" : "empty = same as muzzle"; }
+    public String targetHint() { return bg ? "празно = дуло → мишена" : "empty = muzzle → target"; }
 
     public String shareHeader(double dist, double temp) {
         return String.format(java.util.Locale.US, bg ? "SlugSpeed – разстояние %.2f м, %.1f °C" : "SlugSpeed – range %.2f m, %.1f °C", dist, temp);
