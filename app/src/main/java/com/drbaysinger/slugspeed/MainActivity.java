@@ -340,6 +340,7 @@ public class MainActivity extends Activity implements AudioEngine.Listener {
         h.addView(iconButton(IconView.Glyph.UNDO, MUTED, 18, 38, 0, v -> deleteLast()));
         h.addView(iconButton(IconView.Glyph.TRASH, MUTED, 18, 38, 0, v -> confirmClear()));
         h.addView(iconButton(IconView.Glyph.SHARE, MUTED, 18, 38, 0, v -> share()));
+        h.addView(iconButton(IconView.Glyph.EXPORT, MUTED, 18, 38, 0, v -> exportPdf()));
         c.addView(h);
 
         String[] labels = {tr.avg, tr.sd, tr.es, tr.min, tr.max, tr.energy};
@@ -968,7 +969,7 @@ public class MainActivity extends Activity implements AudioEngine.Listener {
         double avg = sum / n;
         double var = 0;
         for (double v : shots) var += (v - avg) * (v - avg);
-        double sd = n > 1 ? Math.sqrt(var / (n - 1)) : 0;
+        double sd = Math.sqrt(var / n);  // като ChronoMate: дели на n
         tileVal[0].setText(String.format(Locale.US, "%.1f", avg));
         tileVal[1].setText(String.format(Locale.US, "%.1f", sd));
         tileVal[2].setText(String.format(Locale.US, "%.1f", mx - mn));
@@ -1030,5 +1031,62 @@ public class MainActivity extends Activity implements AudioEngine.Listener {
         i.setType("text/plain");
         i.putExtra(Intent.EXTRA_TEXT, sb.toString());
         startActivity(Intent.createChooser(i, tr.shareTitle));
+    }
+
+    /** PDF отчет със статистика, графика и таблица – в Downloads/SlugSpeed, после се отваря. */
+    private void exportPdf() {
+        if (shots.isEmpty()) {
+            Toast.makeText(this, tr.noShots, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final ArrayList<Double> data = new ArrayList<>(shots);
+        final Analyzer.Params p = params();
+        final double mass = mass();
+        final L10n t = tr;
+        final String name = "SlugSpeed_" + new java.text.SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+                .format(new java.util.Date()) + ".pdf";
+        new Thread(() -> {
+            try {
+                android.net.Uri uri = null;
+                String where;
+                if (Build.VERSION.SDK_INT >= 29) {
+                    android.content.ContentValues cv = new android.content.ContentValues();
+                    cv.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, name);
+                    cv.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "application/pdf");
+                    cv.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH,
+                            android.os.Environment.DIRECTORY_DOWNLOADS + "/SlugSpeed");
+                    android.content.ContentResolver cr = getContentResolver();
+                    uri = cr.insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, cv);
+                    if (uri == null) throw new java.io.IOException("MediaStore");
+                    try (java.io.OutputStream os = cr.openOutputStream(uri)) {
+                        if (os == null) throw new java.io.IOException("stream");
+                        PdfReport.write(os, data, p, mass, t);
+                    }
+                    where = t.pdfSaved + name;
+                } else {
+                    // Без разрешение за общото хранилище: папката на приложението
+                    java.io.File dir = getExternalFilesDir(android.os.Environment.DIRECTORY_DOCUMENTS);
+                    if (dir == null) dir = getFilesDir();
+                    java.io.File f = new java.io.File(dir, name);
+                    try (java.io.OutputStream os = new java.io.FileOutputStream(f)) {
+                        PdfReport.write(os, data, p, mass, t);
+                    }
+                    where = "PDF: " + f.getAbsolutePath();
+                }
+                final android.net.Uri open = uri;
+                final String msg = where;
+                ui.post(() -> {
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    if (open != null) {
+                        Intent v = new Intent(Intent.ACTION_VIEW);
+                        v.setDataAndType(open, "application/pdf");
+                        v.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        try { startActivity(v); } catch (android.content.ActivityNotFoundException ignored) { }
+                    }
+                });
+            } catch (Exception e) {
+                ui.post(() -> Toast.makeText(this, t.pdfFailed + e.getMessage(), Toast.LENGTH_LONG).show());
+            }
+        }).start();
     }
 }

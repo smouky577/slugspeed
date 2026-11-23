@@ -10,7 +10,7 @@ import android.view.View;
 /** Малки линейни икони, нарисувани с Canvas (без библиотека с икони). */
 public class IconView extends View {
 
-    public enum Glyph { GEAR, INFO, TRASH, SHARE, UNDO, LIST }
+    public enum Glyph { GEAR, INFO, TRASH, SHARE, UNDO, LIST, EXPORT }
 
     private final Glyph glyph;
     private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -91,6 +91,20 @@ public class IconView extends View {
                     c.drawCircle(w * 0.14f, y, w * 0.06f, p);
                     p.setStyle(Paint.Style.STROKE);
                 }
+                break;
+            }
+            case EXPORT: {
+                // Лист със сгънат ъгъл и стрелка надолу (PDF експорт)
+                Path doc = new Path();
+                doc.moveTo(w * 0.58f, w * 0.1f); doc.lineTo(w * 0.22f, w * 0.1f);
+                doc.lineTo(w * 0.22f, w * 0.9f); doc.lineTo(w * 0.78f, w * 0.9f);
+                doc.lineTo(w * 0.78f, w * 0.3f); doc.lineTo(w * 0.58f, w * 0.1f);
+                doc.lineTo(w * 0.58f, w * 0.3f); doc.lineTo(w * 0.78f, w * 0.3f);
+                c.drawPath(doc, p);
+                c.drawLine(w * 0.5f, w * 0.4f, w * 0.5f, w * 0.74f, p);
+                Path a = new Path();
+                a.moveTo(w * 0.37f, w * 0.61f); a.lineTo(w * 0.5f, w * 0.74f); a.lineTo(w * 0.63f, w * 0.61f);
+                c.drawPath(a, p);
                 break;
             }
         }

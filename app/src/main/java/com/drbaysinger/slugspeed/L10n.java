@@ -12,6 +12,8 @@ public final class L10n {
     public final String series, avg, sd, es, min, max, energy, noShots, allShots, clearQ, yes, no;
     public final String settings, info, done, dist, temp, mass, advanced, phoneMuzzle, phoneTarget, vmin, vmax;
     public final String copied, shareTitle, help, uM, uMs, uG, needMass, speedFps;
+    public final String pdfTitle, pdfDate, pdfShots, pdfRange, pdfTemp, pdfMass, pdfStats, pdfTrend, pdfShotAxis,
+            pdfVelocity, pdfSaved, pdfFailed;
 
     public L10n(boolean bulgarian) {
         bg = bulgarian;
@@ -62,6 +64,18 @@ public final class L10n {
         needMass = t("Въведете теглото на слъга в Настройки", "Enter the slug weight in Settings");
         speedFps = t("Средна fps", "Average fps");
         shareTitle = t("Сподели резултатите", "Share results");
+        pdfTitle = t("SlugSpeed отчет", "SlugSpeed Report");
+        pdfDate = t("Дата", "Date");
+        pdfShots = t("Изстрели в отчета", "Total shots in report");
+        pdfRange = t("Разстояние", "Range");
+        pdfTemp = t("Температура", "Temperature");
+        pdfMass = t("Тегло", "Weight");
+        pdfStats = t("СТАТИСТИКА НА СЕРИЯТА", "SESSION STATISTICS");
+        pdfTrend = t("СКОРОСТ ПО ИЗСТРЕЛИ", "VELOCITY TREND");
+        pdfShotAxis = t("ИЗСТРЕЛ #", "SHOT #");
+        pdfVelocity = t("Скорост", "Velocity");
+        pdfSaved = t("PDF запазен в Downloads/SlugSpeed: ", "PDF saved to Downloads/SlugSpeed: ");
+        pdfFailed = t("Неуспешен експорт: ", "Export failed: ");
         help = bg
                 ? "1. Измерете с ролетка разстоянието от дулото до мишената. 1% грешка в него дава ~1% грешка в скоростта.\n\n"
                 + "2. Сложете телефона до себе си, на 0.3–1 м встрани от дулото, с микрофона към мишената.\n\n"
