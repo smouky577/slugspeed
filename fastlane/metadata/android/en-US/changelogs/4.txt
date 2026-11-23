@@ -1,0 +1,2 @@
+New PDF export of the series with a velocity chart, statistics and a shot table.
+SD is now calculated like ChronoMate.
